@@ -46,7 +46,7 @@ A modern, responsive Airbnb clone built with HTML, CSS, and vanilla JavaScript. 
 - Hover effects for controls
 - Support for multiple images per property
 
-### 6. Packing List Generator
+### 6. 🎒Packing List Generator (🌟NEW FEATURE🌟) 
 - Interactive modal interface
 - Customizable trip parameters:
   - Trip duration
@@ -114,18 +114,6 @@ A modern, responsive Airbnb clone built with HTML, CSS, and vanilla JavaScript. 
 - Safari (latest)
 - Edge (latest)
 
-## Future Enhancements
-1. Backend integration
-2. User authentication
-3. Booking system
-4. Payment processing
-5. Review system
-6. Host dashboard
-7. Advanced search filters
-8. Real-time availability
-9. Messaging system
-10. Mobile app version
-
 ## Getting Started
 
 1. Clone the repository
@@ -142,12 +130,6 @@ open index.html
 ```javascript
 script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY`;
 ```
-
-## Contributing
-Feel free to submit issues and enhancement requests.
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 - Design inspired by Airbnb
