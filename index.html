@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb: Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            color: #222;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            padding: 0 80px;
+            border-bottom: 1px solid #ebebeb;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+        }
+
+        .logo {
+            height: 32px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 32px;
+            margin-left: auto;
+            margin-right: auto;
+            transform: translateX(80px);
+        }
+
+        .nav-tab {
+            padding: 10px 16px;
+            font-weight: 500;
+            color: #222;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tab.active {
+            font-weight: 600;
+            color: #222;
+            border-bottom: 2px solid #222;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .host-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+            padding: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .globe-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .globe-icon:hover {
+            background-color: #f7f7f7;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 5px 5px 5px 12px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 21px;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .user-menu:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+        }
+
+        .menu-bars {
+            color: #222;
+            margin-right: 12px;
+        }
+
+        .user-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #717171;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            max-width: 850px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 40px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+            height: 66px;
+        }
+
+        .search-item {
+            flex: 1;
+            height: 100%;
+            border-radius: 40px;
+            position: relative;
+            padding: 14px 32px;
+            cursor: pointer;
+        }
+
+        .search-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 32px;
+            width: 1px;
+            background: #ddd;
+        }
+
+        .search-item:hover {
+            background-color: #f7f7f7;
+        }
+
+        .search-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .search-input {
+            font-size: 14px;
+            color: #717171;
+            width: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #FF385C;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 8px;
+        }
+
+        /* Filter Categories */
+        .categories-container {
+            display: flex;
+            padding: 16px 80px;
+            border-bottom: 1px solid #DDDDDD;
+            overflow-x: auto;
+            position: relative;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            gap: 32px;
+        }
+
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px 0;
+            min-width: 58px;
+            opacity: 0.6;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .category.active {
+            opacity: 1;
+            border-bottom: 2px solid #000000;
+        }
+
+        .category-icon {
+            height: 24px;
+            width: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-icon img {
+            height: 24px;
+            width: 24px;
+        }
+
+        .category-name {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .filters-button {
+            position: sticky;
+            right: 80px;
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid #DDDDDD;
+            border-radius: 12px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 10;
+            margin-left: auto;
+            height: fit-content;
+            align-self: center;
+        }
+
+        .filters-button i {
+            margin-right: 8px;
+        }
+
+        /* Property Grid */
+        .properties-container {
+            padding: 24px 80px;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .property-card {
+            cursor: pointer;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            padding-bottom: 66.67%;
+            margin-bottom: 12px;
+        }
+
+        .image-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slider-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .slider-image.active {
+            opacity: 1;
+        }
+
+        .navigation-buttons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .image-container:hover .navigation-buttons {
+            opacity: 1;
+        }
+
+        .nav-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .favorite-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            z-index: 2;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+        }
+
+        .pagination-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .pagination-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 3px;
+            background-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+
+        .pagination-dot.active {
+            background-color: white;
+        }
+
+        .property-location {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .property-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .property-info {
+            color: #717171;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .property-price {
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .property-price strong {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #F7F7F7;
+            border-top: 1px solid #DDDDDD;
+            padding: 40px 80px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: #222;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #DDDDDD;
+            padding-top: 24px;
+        }
+
+        .footer-left {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .footer-left a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        .footer-left a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .language-selector, .currency-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-left: 16px;
+        }
+
+        .social-links a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .modal h2 {
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #222;
+            font-weight: 700;
+        }
+
+        .packing-list-btn {
+            background-color: white;
+            border: 1px solid #DDDDDD;
+            border-radius: 40px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .packing-list-btn:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Form Styles */
+        .modal-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .form-group input[type="number"] {
+            width: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .trip-type-options, .weather-options, .additional-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .trip-option, .weather-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .trip-option input, .weather-option input {
+            display: none;
+        }
+
+        .trip-option span, .weather-option span {
+            font-size: 14px;
+        }
+
+        .trip-option:has(input:checked), .weather-option:has(input:checked) {
+            background-color: #FF385C;
+            color: white;
+            border-color: #FF385C;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .checkbox-option input {
+            margin-right: 6px;
+        }
+
+        .generate-btn {
+            background-color: #FF385C;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .generate-btn:hover {
+            background-color: #E31C5F;
+        }
+
+        /* Result Styles */
+        .packing-list-result {
+            background-color: #f7f7f7;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .packing-list-result h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .list-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .list-category {
+            margin-bottom: 20px;
+        }
+
+        .list-category h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #FF385C;
+        }
+
+        .list-category ul {
+            list-style-type: none;
+        }
+
+        .list-category li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ebebeb;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-category li:before {
+            content: '○';
+            margin-right: 10px;
+            color: #FF385C;
+        }
+
+        .list-category li:has(input:checked):before {
+            content: '●';
+            color: #00A699;
+        }
+
+        .list-category li input {
+            margin-right: 10px;
+        }
+
+        .list-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-btn:hover {
+            background-color: #f7f7f7;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 20px;
+            }
+
+            .list-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Map Toggle Button Styles */
+        .map-toggle {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99;
+            transition: all 0.3s ease;
+        }
+
+        .map-toggle-btn {
+            background-color: #222222;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 14px 19px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .map-toggle-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .map-toggle-btn i {
+            font-size: 16px;
+        }
+
+        /* Map View Styles */
+        .map-view {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: white;
+            z-index: 1000;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .map-view.active {
+            display: block;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 100%;
+            background-color: #f8f8f8;
+        }
+
+        .close-map-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1001;
+            transition: all 0.2s ease;
+        }
+
+        .close-map-btn:hover {
+            background-color: #f7f7f7;
+        }
+
+        /* Hide map toggle when at the top of the page */
+        .map-toggle.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .map-toggle {
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/2560px-Airbnb_Logo_B%C3%A9lo.svg.png" alt="Airbnb" class="logo">
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active">Homes</div>
+            <div class="nav-tab">Experiences</div>
+        </div>
+
+        <button class="packing-list-btn" id="packingListBtn">
+            <i class="fas fa-suitcase"></i> Generate Packing List
+        </button>
+        
+        <div class="user-section">
+            <a href="#" class="host-link">Airbnb your home</a>
+            <div class="globe-icon">
+                <i class="fas fa-globe"></i>
+            </div>
+            <div class="user-menu">
+                <i class="fas fa-bars menu-bars"></i>
+                <div class="user-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-bar">
+            <div class="search-item">
+                <div class="search-label">Where</div>
+                <input type="text" class="search-input" placeholder="Search destinations">
+            </div>
+            <div class="search-item">
+                <div class="search-label">Check in</div>
+                <input type="text" class="search-input" placeholder="Add dates">
+            </div>
+            <div class="search-item">
+                <div class="search-label">Check out</div>
+                <input type="text" class="search-input" placeholder="Add dates">
+            </div>
+            <div class="search-item">
+                <div class="search-label">Who</div>
+                <input type="text" class="search-input" placeholder="Add guests">
+            </div>
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Categories -->
+    <div class="categories-container">
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/aaa02c2d-9f0d-4c41-878a-68c12ec6c6bd.jpg" alt="Farms">
+            </div>
+            <div class="category-name">Farms</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg" alt="Icons">
+            </div>
+            <div class="category-name">Icons</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg" alt="Rooms">
+            </div>
+            <div class="category-name">Rooms</div>
+        </div>
+        <div class="category active">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" alt="Amazing pools">
+            </div>
+            <div class="category-name">Amazing pools</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/248f85bf-e35e-4dc3-a9a1-e1dbff9a3db4.jpg" alt="Top of the world">
+            </div>
+            <div class="category-name">Top of the world</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/5cdb8451-8f75-4c5f-a17d-33ee228e3db8.jpg" alt="Windmills">
+            </div>
+            <div class="category-name">Windmills</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg" alt="Amazing views">
+            </div>
+            <div class="category-name">Amazing views</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/6ad4bd95-f086-437d-97e3-14d12155ddfe.jpg" alt="Countryside">
+            </div>
+            <div class="category-name">Countryside</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg" alt="Beachfront">
+            </div>
+            <div class="category-name">Beachfront</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/c8e2ed05-c666-47b6-99fc-4cb6edcde6b4.jpg" alt="Luxe">
+            </div>
+            <div class="category-name">Luxe</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/1d477273-96d6-4819-9bda-9085f809dad3.jpg" alt="Treehouses">
+            </div>
+            <div class="category-name">Treehouses</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/732edad8-3ae0-49a8-a451-29a8010dcc0c.jpg" alt="Cabins">
+            </div>
+            <div class="category-name">Cabins</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg" alt="OMG!">
+            </div>
+            <div class="category-name">OMG!</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/677a041d-7264-4c45-bb72-52bff21eb6e8.jpg" alt="Lakefront">
+            </div>
+            <div class="category-name">Lakefront</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/89faf9ae-bbbc-4bc4-aecd-cc15bf36cbca.jpg" alt="Domes">
+            </div>
+            <div class="category-name">Domes</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/35919456-df89-4024-ad50-5fcb7a472df9.jpg" alt="Tiny homes">
+            </div>
+            <div class="category-name">Tiny homes</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/50861fca-582c-4bcc-89d3-857fb7ca6528.jpg" alt="Design">
+            </div>
+            <div class="category-name">Design</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/8b44f770-7156-4c7b-b4d3-d92549c8652f.jpg" alt="Arctic">
+            </div>
+            <div class="category-name">Arctic</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/ee9e2a40-ffac-4db9-9080-b351efc3cfc4.jpg" alt="Tropical">
+            </div>
+            <div class="category-name">Tropical</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/eb7ba4c0-ea38-4cbb-9db6-bdcc8baad585.jpg" alt="Private rooms">
+            </div>
+            <div class="category-name">Private rooms</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/c0fa9598-4e37-40f3-b734-4bd0e2377add.jpg" alt="New">
+            </div>
+            <div class="category-name">New</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/3726d94b-534a-42b8-bca0-a0304d912260.jpg" alt="Trending">
+            </div>
+            <div class="category-name">Trending</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/4221e293-4770-4ea8-a4fa-9972158d4004.jpg" alt="Caves">
+            </div>
+            <div class="category-name">Caves</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/957f8022-dfd7-426c-99fd-77ed792f6d7a.jpg" alt="Surfing">
+            </div>
+            <div class="category-name">Surfing</div>
+        </div>
+        <div class="category">
+            <div class="category-icon">
+                <img src="https://a0.muscache.com/pictures/d7445031-62c4-46d0-91c3-4f29f9790f7a.jpg" alt="Earth homes">
+            </div>
+            <div class="category-name">Earth homes</div>
+        </div>
+        <div class="filters-button">
+            <i class="fas fa-sliders-h"></i>
+            Filters
+        </div>
+    </div>
+    
+    <!-- Property Grid -->
+    <div class="properties-container">
+        <div class="property-grid">
+            <!-- Property 1 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/00c7999c-7c82-451f-9b15-512c63bc3157.jpg" class="slider-image active" alt="Luxury villa">
+                        <img src="assets/15 Apartment Balcony Shade Ideas.jpg" class="slider-image" alt="Luxury villa">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Zephyr Cove, Nevada</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.98
+                    </div>
+                </div>
+                <div class="property-info">55 miles away</div>
+                <div class="property-info">May 5 – 10</div>
+                <div class="property-price"><strong>$1,095</strong> night</div>
+            </div>
+            
+            <!-- Property 2 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/16 Inspired Moroccan Hallway Decor Ideas - Edward George.jpg" class="slider-image active" alt="Beach house">
+                        <img src="assets/18+ Inspiring Indian Entryway Decoration Ideas.jpg" class="slider-image" alt="Beach house">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Stinson Beach, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.92
+                    </div>
+                </div>
+                <div class="property-info">38 miles away</div>
+                <div class="property-info">Apr 30 – May 5</div>
+                <div class="property-price"><strong>$750</strong> night</div>
+            </div>
+            
+            <!-- Property 3 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/261d0493-26fb-491d-8c95-7b28c40641f4.jpg" class="slider-image active" alt="Mountain cabin">
+                        <img src="assets/2fa6dbfc-0d42-4730-9b16-f80c123c6bcf.jpg" class="slider-image" alt="Mountain cabin">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Tahoe City, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.95
+                    </div>
+                </div>
+                <div class="property-info">92 miles away</div>
+                <div class="property-info">May 7 – 12</div>
+                <div class="property-price"><strong>$495</strong> night</div>
+            </div>
+            
+            <!-- Property 4 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/3f38deac-82f3-42c4-9244-a50e085ab8af.jpg" class="slider-image active" alt="Ocean view">
+                        <img src="assets/40 Decor Ideas for Large Walls_ Maximizing Your Space with Style.jpg" class="slider-image" alt="Ocean view">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Sea Ranch, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.97
+                    </div>
+                </div>
+                <div class="property-info">105 miles away</div>
+                <div class="property-info">May 1 – 6</div>
+                <div class="property-price"><strong>$380</strong> night</div>
+            </div>
+            
+            <!-- Property 5 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/40 Modern House Facades With Instant Curb Appeal.jpg" class="slider-image active" alt="Lake view">
+                        <img src="assets/7 eco-conscious stays to bookmark for your next vacation.jpg" class="slider-image" alt="Lake view">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>South Lake Tahoe, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.91
+                    </div>
+                </div>
+                <div class="property-info">87 miles away</div>
+                <div class="property-info">May 14 – 19</div>
+                <div class="property-price"><strong>$225</strong> night</div>
+            </div>
+            
+            <!-- Property 6 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/8dc5dcca-e434-4fcd-ac0d-f08e6489fb42.jpg" class="slider-image active" alt="Mountain view">
+                        <img src="assets/a7c0843a-c533-405b-aef6-197aa4cd7d77.jpg" class="slider-image" alt="Mountain view">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Olympic Valley, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.88
+                    </div>
+                </div>
+                <div class="property-info">102 miles away</div>
+                <div class="property-info">May 9 – 14</div>
+                <div class="property-price"><strong>$355</strong> night</div>
+            </div>
+            
+            <!-- Property 7 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/a7c0843a-c533-405b-aef6-197aa4cd7d77.jpg" class="slider-image active" alt="Forest cabin">
+                        <img src="assets/Amazing Home Indoor decoration.jpg" class="slider-image" alt="Forest cabin">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Cazadero, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.99
+                    </div>
+                </div>
+                <div class="property-info">75 miles away</div>
+                <div class="property-info">May 8 – 13</div>
+                <div class="property-price"><strong>$495</strong> night</div>
+            </div>
+            
+            <!-- Property 8 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/Antique Allure interior Design Inspired by the….jpg" class="slider-image active" alt="Beach house">
+                        <img src="assets/Classic, Playful, and Contemporary are Ideal Expressions of this Home in Vadodara _ Shape My Space.jpg" class="slider-image" alt="Beach house">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Bodega Bay, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.93
+                    </div>
+                </div>
+                <div class="property-info">65 miles away</div>
+                <div class="property-info">May 15 – 20</div>
+                <div class="property-price"><strong>$450</strong> night</div>
+            </div>
+            
+            <!-- Property 9 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/Courtyard.jpg" class="slider-image active" alt="Mountain retreat">
+                        <img src="assets/Create a Stunning Green Living Room for Free_ Beginners Edition.jpg" class="slider-image" alt="Mountain retreat">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>South Lake Tahoe, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.89
+                    </div>
+                </div>
+                <div class="property-info">90 miles away</div>
+                <div class="property-info">May 11 – 16</div>
+                <div class="property-price"><strong>$320</strong> night</div>
+            </div>
+            
+            <!-- Property 10 -->
+            <div class="property-card">
+                <div class="image-container">
+                    <div class="image-slider">
+                        <img src="assets/Discover Your Dream Home 15 Luxurious Mansion Ideas.jpg" class="slider-image active" alt="Luxury home">
+                        <img src="assets/Where Luxury Meets Tradition - Design.jpg" class="slider-image" alt="Luxury home">
+                    </div>
+                    <div class="navigation-buttons">
+                        <div class="nav-button prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="nav-button next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="pagination-dots">
+                        <div class="pagination-dot active"></div>
+                        <div class="pagination-dot"></div>
+                    </div>
+                </div>
+                <div class="property-location">
+                    <div>Malibu, California</div>
+                    <div class="property-rating">
+                        <i class="fas fa-star"></i> 4.96
+                    </div>
+                </div>
+                <div class="property-info">142 miles away</div>
+                <div class="property-info">May 20 – 25</div>
+                <div class="property-price"><strong>$1,250</strong> night</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-column">
+                <h4>Support</h4>
+                <div class="footer-links">
+                    <a href="#">Help Center</a>
+                    <a href="#">AirCover</a>
+                    <a href="#">Anti-discrimination</a>
+                    <a href="#">Disability support</a>
+                    <a href="#">Cancellation options</a>
+                    <a href="#">Report neighborhood concern</a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Hosting</h4>
+                <div class="footer-links">
+                    <a href="#">Airbnb your home</a>
+                    <a href="#">AirCover for Hosts</a>
+                    <a href="#">Hosting resources</a>
+                    <a href="#">Community forum</a>
+                    <a href="#">Hosting responsibly</a>
+                    <a href="#">Join a free Hosting class</a>
+                    <a href="#">Find a co-host</a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Airbnb</h4>
+                <div class="footer-links">
+                    <a href="#">Newsroom</a>
+                    <a href="#">New features</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Investors</a>
+                    <a href="#">Airbnb.org emergency stays</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-left">
+                <span>© 2025 Airbnb, Inc.</span>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Sitemap</a>
+                <a href="#">Company details</a>
+            </div>
+            
+            <div class="footer-right">
+                <div class="language-selector">
+                    <i class="fas fa-globe"></i>
+                    <span>English (US)</span>
+                </div>
+                <div class="currency-selector">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>USD</span>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Add this modal at the end of the body before the closing body tag -->
+    <div id="packingListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Generate Your Packing List</h2>
+            
+            <div class="modal-form">
+                <div class="form-group">
+                    <label for="tripDuration">Trip Duration (days):</label>
+                    <input type="number" id="tripDuration" min="1" max="30" value="7">
+                </div>
+                
+                <div class="form-group">
+                    <label>Trip Type:</label>
+                    <div class="trip-type-options">
+                        <label class="trip-option">
+                            <input type="radio" name="tripType" value="beach" checked>
+                            <span>Beach</span>
+                        </label>
+                        <label class="trip-option">
+                            <input type="radio" name="tripType" value="mountain">
+                            <span>Mountain</span>
+                        </label>
+                        <label class="trip-option">
+                            <input type="radio" name="tripType" value="city">
+                            <span>City</span>
+                        </label>
+                        <label class="trip-option">
+                            <input type="radio" name="tripType" value="camping">
+                            <span>Camping</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Weather:</label>
+                    <div class="weather-options">
+                        <label class="weather-option">
+                            <input type="radio" name="weather" value="hot" checked>
+                            <span>Hot</span>
+                        </label>
+                        <label class="weather-option">
+                            <input type="radio" name="weather" value="mild">
+                            <span>Mild</span>
+                        </label>
+                        <label class="weather-option">
+                            <input type="radio" name="weather" value="cold">
+                            <span>Cold</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Additional Options:</label>
+                    <div class="additional-options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="includeSwimming">
+                            <span>Swimming</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="includeHiking">
+                            <span>Hiking</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="includeWorkspace">
+                            <span>Remote Work</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="includeInfant">
+                            <span>Traveling with Infant</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="generateListBtn" class="generate-btn">Generate Packing List</button>
+            </div>
+            
+            <div id="packingListResult" class="packing-list-result" style="display: none;">
+                <h3>Your Customized Packing List</h3>
+                <div class="list-categories">
+                    <div class="list-category">
+                        <h4>Essentials</h4>
+                        <ul id="essentialsList"></ul>
+                    </div>
+                    <div class="list-category">
+                        <h4>Clothing</h4>
+                        <ul id="clothingList"></ul>
+                    </div>
+                    <div class="list-category">
+                        <h4>Toiletries</h4>
+                        <ul id="toiletriesList"></ul>
+                    </div>
+                    <div class="list-category">
+                        <h4>Activity Specific</h4>
+                        <ul id="activityList"></ul>
+                    </div>
+                </div>
+                <div class="list-actions">
+                    <button id="printListBtn" class="action-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button id="emailListBtn" class="action-btn">
+                        <i class="fas fa-envelope"></i> Email
+                    </button>
+                    <button id="saveListBtn" class="action-btn">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add the floating map toggle button -->
+    <div id="mapToggle" class="map-toggle">
+        <button class="map-toggle-btn">
+            <span>Show map</span>
+            <i class="fas fa-map"></i>
+        </button>
+    </div>
+
+    <!-- Add the map view container -->
+    <div id="mapView" class="map-view">
+        <div id="map" class="map-container"></div>
+        <button class="close-map-btn">
+            <i class="fas fa-times"></i>
+            <span>Close map</span>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category selection
+            const categories = document.querySelectorAll('.category');
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    categories.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Image slider functionality for each property card
+            const propertyCards = document.querySelectorAll('.property-card');
+            
+            propertyCards.forEach(card => {
+                const images = card.querySelectorAll('.slider-image');
+                const dots = card.querySelectorAll('.pagination-dot');
+                const prevBtn = card.querySelector('.prev-btn');
+                const nextBtn = card.querySelector('.next-btn');
+                let currentIndex = 0;
+                
+                // Update the active image and dot
+                function updateSlider() {
+                    images.forEach((img, index) => {
+                        if (index === currentIndex) {
+                            img.classList.add('active');
+                        } else {
+                            img.classList.remove('active');
+                        }
+                    });
+                    
+                    dots.forEach((dot, index) => {
+                        if (index === currentIndex) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                }
+                
+                // Navigation buttons
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (currentIndex > 0) {
+                            currentIndex--;
+                            updateSlider();
+                        }
+                    });
+                }
+                
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (currentIndex < images.length - 1) {
+                            currentIndex++;
+                            updateSlider();
+                        }
+                    });
+                }
+                
+                // Dot navigation
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        currentIndex = index;
+                        updateSlider();
+                    });
+                });
+                
+                // Favorite button
+                const favoriteBtn = card.querySelector('.favorite-button');
+                if (favoriteBtn) {
+                    favoriteBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const icon = this.querySelector('i');
+                        if (icon.classList.contains('far')) {
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                            icon.style.color = '#FF385C';
+                        } else {
+                            icon.classList.remove('fas');
+                            icon.classList.add('far');
+                            icon.style.color = 'white';
+                        }
+                    });
+                }
+            });
+            
+            // Categories navigation
+            const categoriesContainer = document.querySelector('.categories-container');
+            
+            // Remove the arrow button functionality since we're removing the buttons
+            if (categoriesContainer) {
+                // Keep the container scrollable
+                categoriesContainer.addEventListener('scroll', function() {
+                    // Any additional scroll handling if needed
+                });
+                
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    // Any resize handling if needed
+                });
+            }
+        });
+
+        // Packing List Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('packingListModal');
+            const openBtn = document.getElementById('packingListBtn');
+            const closeBtn = document.querySelector('.close-modal');
+            const generateBtn = document.getElementById('generateListBtn');
+            const packingListResult = document.getElementById('packingListResult');
+            
+            // Open modal
+            openBtn.addEventListener('click', function() {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            });
+            
+            // Close modal
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+            
+            // Close when clicking outside the modal
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Generate packing list
+            generateBtn.addEventListener('click', function() {
+                // Get form values
+                const duration = document.getElementById('tripDuration').value;
+                const tripType = document.querySelector('input[name="tripType"]:checked').value;
+                const weather = document.querySelector('input[name="weather"]:checked').value;
+                const includeSwimming = document.getElementById('includeSwimming').checked;
+                const includeHiking = document.getElementById('includeHiking').checked;
+                const includeWorkspace = document.getElementById('includeWorkspace').checked;
+                const includeInfant = document.getElementById('includeInfant').checked;
+                
+                // Generate lists based on selections
+                generatePackingList(duration, tripType, weather, includeSwimming, includeHiking, includeWorkspace, includeInfant);
+                
+                // Show results
+                packingListResult.style.display = 'block';
+                packingListResult.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Print list functionality
+            document.getElementById('printListBtn').addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Email list functionality (placeholder)
+            document.getElementById('emailListBtn').addEventListener('click', function() {
+                alert('This feature would email your packing list (demo only)');
+            });
+            
+            // Save list functionality (placeholder)
+            document.getElementById('saveListBtn').addEventListener('click', function() {
+                alert('This feature would save your packing list to your account (demo only)');
+            });
+            
+            // Function to generate packing list items
+            function generatePackingList(duration, tripType, weather, includeSwimming, includeHiking, includeWorkspace, includeInfant) {
+                // Clear previous lists
+                document.getElementById('essentialsList').innerHTML = '';
+                document.getElementById('clothingList').innerHTML = '';
+                document.getElementById('toiletriesList').innerHTML = '';
+                document.getElementById('activityList').innerHTML = '';
+                
+                // Essential items (always included)
+                const essentials = [
+                    'Passport/ID',
+                    'Credit/Debit Cards',
+                    'Cash',
+                    'Phone & Charger',
+                    'Travel Insurance Documents',
+                    'Medications',
+                    'Portable Charger',
+                    'Headphones',
+                    'Sunglasses',
+                    'Water Bottle'
+                ];
+                
+                // Add essentials to the list
+                const essentialsList = document.getElementById('essentialsList');
+                essentials.forEach(item => {
+                    addItemToList(essentialsList, item);
+                });
+                
+                // Clothing items based on trip duration and weather
+                const clothingList = document.getElementById('clothingList');
+                
+                // Calculate quantities based on duration
+                const topsCount = Math.min(Math.ceil(duration * 0.7), 10);
+                const bottomsCount = Math.min(Math.ceil(duration * 0.5), 7);
+                const underwearCount = Math.min(duration + 2, 14);
+                const socksCount = Math.min(duration + 2, 14);
+                
+                // Base clothing items
+                addItemToList(clothingList, `Tops/T-shirts (${topsCount})`);
+                addItemToList(clothingList, `Bottoms/Pants/Shorts (${bottomsCount})`);
+                addItemToList(clothingList, `Underwear (${underwearCount})`);
+                addItemToList(clothingList, `Socks (${socksCount})`);
+                addItemToList(clothingList, 'Sleepwear');
+                
+                // Weather specific clothing
+                if (weather === 'hot') {
+                    addItemToList(clothingList, 'Light Jacket/Sweater');
+                    addItemToList(clothingList, 'Shorts');
+                    addItemToList(clothingList, 'Sandals/Flip-flops');
+                    addItemToList(clothingList, 'Hat/Cap');
+                } else if (weather === 'mild') {
+                    addItemToList(clothingList, 'Light Jacket/Sweater');
+                    addItemToList(clothingList, 'Light Rain Jacket');
+                    addItemToList(clothingList, 'Comfortable Shoes');
+                } else if (weather === 'cold') {
+                    addItemToList(clothingList, 'Heavy Jacket/Coat');
+                    addItemToList(clothingList, 'Thermal Underwear');
+                    addItemToList(clothingList, 'Sweaters/Fleece');
+                    addItemToList(clothingList, 'Gloves/Mittens');
+                    addItemToList(clothingList, 'Beanie/Winter Hat');
+                    addItemToList(clothingList, 'Scarf');
+                    addItemToList(clothingList, 'Warm Socks');
+                    addItemToList(clothingList, 'Winter Boots');
+                }
+                
+                // Toiletries
+                const toiletriesList = document.getElementById('toiletriesList');
+                const toiletries = [
+                    'Toothbrush & Toothpaste',
+                    'Deodorant',
+                    'Shampoo & Conditioner',
+                    'Body Wash/Soap',
+                    'Face Cleanser',
+                    'Moisturizer',
+                    'Sunscreen',
+                    'Razor & Shaving Cream',
+                    'Hairbrush/Comb',
+                    'Hair Products',
+                    'Contact Lenses & Solution',
+                    'Makeup & Remover',
+                    'Lip Balm',
+                    'First Aid Kit'
+                ];
+                
+                toiletries.forEach(item => {
+                    addItemToList(toiletriesList, item);
+                });
+                
+                // Activity specific items
+                const activityList = document.getElementById('activityList');
+                
+                // Trip type specific items
+                if (tripType === 'beach') {
+                    addItemToList(activityList, 'Beach Towel');
+                    addItemToList(activityList, 'Swimwear');
+                    addItemToList(activityList, 'Beach Bag');
+                    addItemToList(activityList, 'Sunscreen');
+                    addItemToList(activityList, 'After-Sun Lotion');
+                    addItemToList(activityList, 'Beach Hat');
+                    addItemToList(activityList, 'Beach Cover-Up');
+                } else if (tripType === 'mountain') {
+                    addItemToList(activityList, 'Hiking Boots/Shoes');
+                    addItemToList(activityList, 'Backpack');
+                    addItemToList(activityList, 'Hiking Socks');
+                    addItemToList(activityList, 'Water Bottle');
+                    addItemToList(activityList, 'Insect Repellent');
+                    addItemToList(activityList, 'Flashlight/Headlamp');
+                    addItemToList(activityList, 'First Aid Kit');
+                    addItemToList(activityList, 'Trail Map');
+                } else if (tripType === 'city') {
+                    addItemToList(activityList, 'Comfortable Walking Shoes');
+                    addItemToList(activityList, 'Day Bag/Backpack');
+                    addItemToList(activityList, 'City Map/Guidebook');
+                    addItemToList(activityList, 'Umbrella');
+                    addItemToList(activityList, 'Camera');
+                    addItemToList(activityList, 'Portable Charger');
+                } else if (tripType === 'camping') {
+                    addItemToList(activityList, 'Tent');
+                    addItemToList(activityList, 'Sleeping Bag');
+                    addItemToList(activityList, 'Sleeping Pad');
+                    addItemToList(activityList, 'Camping Pillow');
+                    addItemToList(activityList, 'Headlamp/Flashlight');
+                    addItemToList(activityList, 'Multi-tool');
+                    addItemToList(activityList, 'Cooking Equipment');
+                    addItemToList(activityList, 'Fire Starter');
+                    addItemToList(activityList, 'Insect Repellent');
+                    addItemToList(activityList, 'Cooler');
+                    addItemToList(activityList, 'Camping Chair');
+                }
+                
+                // Additional options
+                if (includeSwimming) {
+                    addItemToList(activityList, 'Swimwear');
+                    addItemToList(activityList, 'Swimming Goggles');
+                    addItemToList(activityList, 'Swim Cap');
+                    addItemToList(activityList, 'Beach/Pool Towel');
+                    addItemToList(activityList, 'Flip Flops');
+                }
+                
+                if (includeHiking) {
+                    addItemToList(activityList, 'Hiking Boots/Shoes');
+                    addItemToList(activityList, 'Hiking Socks');
+                    addItemToList(activityList, 'Hiking Backpack');
+                    addItemToList(activityList, 'Walking Poles');
+                    addItemToList(activityList, 'Water Bottle/Hydration Pack');
+                    addItemToList(activityList, 'Trail Snacks');
+                    addItemToList(activityList, 'Trail Map');
+                    addItemToList(activityList, 'GPS/Compass');
+                }
+                
+                if (includeWorkspace) {
+                    addItemToList(activityList, 'Laptop & Charger');
+                    addItemToList(activityList, 'Mouse');
+                    addItemToList(activityList, 'Headphones');
+                    addItemToList(activityList, 'Notebook & Pen');
+                    addItemToList(activityList, 'Travel Adapter');
+                    addItemToList(activityList, 'HDMI Cable');
+                    addItemToList(activityList, 'USB Drive');
+                }
+                
+                if (includeInfant) {
+                    addItemToList(activityList, 'Diapers');
+                    addItemToList(activityList, 'Baby Wipes');
+                    addItemToList(activityList, 'Baby Food/Formula');
+                    addItemToList(activityList, 'Bottles');
+                    addItemToList(activityList, 'Baby Clothes');
+                    addItemToList(activityList, 'Baby Blanket');
+                    addItemToList(activityList, 'Pacifiers');
+                    addItemToList(activityList, 'Baby Toys');
+                    addItemToList(activityList, 'Baby Monitor');
+                    addItemToList(activityList, 'Stroller/Carrier');
+                    addItemToList(activityList, 'Baby Sunscreen');
+                    addItemToList(activityList, 'Baby First Aid Kit');
+                }
+            }
+            
+            // Helper function to add items to list with checkboxes
+            function addItemToList(list, item) {
+                const li = document.createElement('li');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'item-checkbox';
+                li.appendChild(checkbox);
+                li.appendChild(document.createTextNode(item));
+                list.appendChild(li);
+                
+                // Add event listener to update checked state
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        li.classList.add('checked');
+                    } else {
+                        li.classList.remove('checked');
+                    }
+                });
+            }
+        });
+
+        // Map Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapToggle = document.getElementById('mapToggle');
+            const mapView = document.getElementById('mapView');
+            const mapToggleBtn = document.querySelector('.map-toggle-btn');
+            const closeMapBtn = document.querySelector('.close-map-btn');
+            
+            // Show/hide map toggle based on scroll position
+            let lastScrollPosition = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                // Show/hide based on scroll direction and position
+                if (currentScroll < 100) {
+                    mapToggle.classList.add('hidden');
+                } else {
+                    mapToggle.classList.remove('hidden');
+                }
+                
+                lastScrollPosition = currentScroll;
+            });
+            
+            // Toggle map view
+            mapToggleBtn.addEventListener('click', function() {
+                mapView.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                initMap();
+            });
+            
+            // Close map view
+            closeMapBtn.addEventListener('click', function() {
+                mapView.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Initialize map (using Google Maps as an example)
+            function initMap() {
+                // Check if map is already initialized
+                if (window.map) return;
+                
+                // Load Google Maps script if not already loaded
+                if (!window.google) {
+                    const script = document.createElement('script');
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY`;
+                    script.defer = true;
+                    script.async = true;
+                    script.onload = createMap;
+                    document.head.appendChild(script);
+                } else {
+                    createMap();
+                }
+            }
+            
+            function createMap() {
+                // Example coordinates (San Francisco)
+                const center = { lat: 37.7749, lng: -122.4194 };
+                
+                // Create the map
+                window.map = new google.maps.Map(document.getElementById('map'), {
+                    center: center,
+                    zoom: 13,
+                    styles: [
+                        {
+                            featureType: 'poi',
+                            elementType: 'labels',
+                            stylers: [{ visibility: 'off' }]
+                        }
+                    ]
+                });
+                
+                // Add markers for each property
+                const properties = document.querySelectorAll('.property-card');
+                properties.forEach(property => {
+                    // Example: Get coordinates from data attributes (you'll need to add these)
+                    const lat = parseFloat(property.dataset.lat) || center.lat;
+                    const lng = parseFloat(property.dataset.lng) || center.lng;
+                    
+                    const marker = new google.maps.Marker({
+                        position: { lat, lng },
+                        map: window.map,
+                        icon: {
+                            url: 'path_to_custom_marker.png',
+                            scaledSize: new google.maps.Size(40, 40)
+                        }
+                    });
+                    
+                    // Add click listener to marker
+                    marker.addListener('click', () => {
+                        // Show property info window
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: createPropertyCard(property)
+                        });
+                        infoWindow.open(map, marker);
+                    });
+                });
+            }
+            
+            function createPropertyCard(property) {
+                // Create a simplified version of the property card for the map info window
+                const price = property.querySelector('.property-price').textContent;
+                const location = property.querySelector('.property-location').textContent;
+                const image = property.querySelector('.slider-image').src;
+                
+                return `
+                    <div class="map-property-card" style="width: 250px; padding: 10px;">
+                        <img src="${image}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+                        <div style="margin-top: 10px;">
+                            <div style="font-weight: 600;">${price}</div>
+                            <div style="font-size: 14px; color: #717171;">${location}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
