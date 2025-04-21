@@ -89,16 +89,16 @@
 
         .nav-tab {
             padding: 10px 16px;
-            font-weight: 500;
-            color: #222;
+            font-weight: 400;
+            color: #717171;
             cursor: pointer;
-            border-bottom: 2px solid transparent;
+            border-bottom: none;
         }
 
         .nav-tab.active {
             font-weight: 600;
             color: #222;
-            border-bottom: 2px solid #222;
+            border-bottom: none;
         }
 
         .user-section {
@@ -163,14 +163,9 @@
 
         /* Search Bar */
         .search-container {
-            display: none; /* Hide the original search container */
-            transition: all 0.3s ease;
-        }
-        
-        .search-container {
             display: flex;
             justify-content: center;
-            padding: 20px 0;
+            padding: 10px 0 20px;
             transition: all 0.3s ease;
             position: relative;
             z-index: 90;
@@ -283,6 +278,8 @@
             border-radius: 40px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
             height: 66px;
+            padding: 0;
+            overflow: hidden;
         }
         
         #homes-search {
@@ -295,26 +292,13 @@
 
         .search-item {
             flex: 1;
-            height: 100%;
-            border-radius: 40px;
+            padding: 14px 32px;
             position: relative;
-            padding: 14px 24px;
-            cursor: pointer;
+            border-right: 1px solid #ddd;
         }
         
-        .search-item.where-field {
-            padding-right: 48px;
-        }
-
-        .search-item:nth-child(-n+3)::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 32px;
-            width: 1px;
-            background: #ddd;
+        .search-item:last-of-type {
+            border-right: none;
         }
 
         .search-item:hover {
@@ -323,9 +307,9 @@
 
         .search-label {
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             color: #222;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .search-input {
@@ -335,6 +319,7 @@
             border: none;
             background: transparent;
             outline: none;
+            padding: 0;
         }
 
         .search-button {
@@ -348,7 +333,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            margin: 0 8px;
+            margin-right: 8px;
         }
 
         .globe-icon {
