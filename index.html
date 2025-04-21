@@ -6,11 +6,43 @@
     <title>Airbnb: Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @font-face {
+            font-family: 'Circular';
+            src: url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Light-e44cab9.woff2') format('woff2'),
+                 url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Light-d774cfb.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Circular';
+            src: url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Book-9963df8.woff2') format('woff2'),
+                 url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Book-4ea26c2.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Circular';
+            src: url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Bold-367d5d0.woff2') format('woff2'),
+                 url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Bold-ba3e389.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Circular';
+            src: url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Black-9a1c7d0.woff2') format('woff2'),
+                 url('https://a0.muscache.com/airbnb/static/airbnb-o2/fonts/Circular_Air-Black-3df92b7.woff') format('woff');
+            font-weight: 900;
+            font-style: normal;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+            font-family: 'Circular', -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
         }
 
         body {
@@ -23,25 +55,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 80px; /* Standard height */
             padding: 0 80px;
             border-bottom: 1px solid #ebebeb;
             position: sticky;
             top: 0;
             background: white;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .header.scrolled {
+            height: 64px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
         }
 
         .logo {
             height: 32px;
+            width: auto;
+            object-fit: contain;
+            cursor: pointer;
         }
 
         .nav-tabs {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 32px;
-            margin-left: auto;
-            margin-right: auto;
-            transform: translateX(80px);
+            margin: 0;
+            padding-top: 8px;
         }
 
         .nav-tab {
@@ -61,7 +104,7 @@
         .user-section {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 12px;
         }
 
         .host-link {
@@ -120,9 +163,115 @@
 
         /* Search Bar */
         .search-container {
+            display: none; /* Hide the original search container */
+            transition: all 0.3s ease;
+        }
+        
+        .search-container {
             display: flex;
             justify-content: center;
             padding: 20px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 90;
+            border-bottom: 1px solid #ebebeb;
+            background: white;
+        }
+        
+        .search-container.hidden {
+            display: none;
+        }
+        
+        .navbar-search {
+            display: none; /* Hide this as we'll use the search container instead */
+        }
+        
+        .navbar-search.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .navbar-search .search-bar {
+            height: 48px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .navbar-search .search-item {
+            padding: 0 16px;
+            font-size: 14px;
+        }
+        
+        .navbar-search .search-button {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+        }
+        
+        .search-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .compact-search {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            border: 1px solid #ddd;
+            border-radius: 40px;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+            padding: 0;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            z-index: 101;
+            width: 350px;
+        }
+        
+        .compact-search .search-button {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            border-radius: 50%;
+            background-color: #FF385C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        
+        .compact-search .search-button i {
+            font-size: 12px;
+            color: white;
+        }
+        
+        .compact-search.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .compact-search-item {
+            padding: 0 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #222;
+            border-right: 1px solid #ddd;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .compact-search-item:last-of-type {
+            border-right: none;
+            color: #717171;
         }
 
         .search-bar {
@@ -135,17 +284,29 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
             height: 66px;
         }
+        
+        #homes-search {
+            max-width: 850px;
+        }
+        
+        #experiences-search {
+            max-width: 700px;
+        }
 
         .search-item {
             flex: 1;
             height: 100%;
             border-radius: 40px;
             position: relative;
-            padding: 14px 32px;
+            padding: 14px 24px;
             cursor: pointer;
         }
+        
+        .search-item.where-field {
+            padding-right: 48px;
+        }
 
-        .search-item:not(:last-child)::after {
+        .search-item:nth-child(-n+3)::after {
             content: '';
             position: absolute;
             right: 0;
@@ -190,21 +351,258 @@
             margin: 0 8px;
         }
 
+        .globe-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 8px;
+            border: 1px solid #ddd;
+            padding: 6px;
+            font-size: 14px;
+            color: #222;
+        }
+
         /* Filter Categories */
+        .categories-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 80px;
+            border-bottom: 1px solid #DDDDDD;
+        }
+
         .categories-container {
             display: flex;
-            padding: 16px 80px;
-            border-bottom: 1px solid #DDDDDD;
-            overflow-x: auto;
+            padding: 16px 0;
+            overflow-x: hidden;
             position: relative;
             scroll-behavior: smooth;
             -ms-overflow-style: none;
             scrollbar-width: none;
             gap: 32px;
+            width: calc(9 * 58px + 8 * 32px); /* Exactly 9 icons (58px each) with gaps (32px) between them */
+            margin-right: 0;
         }
 
         .categories-container::-webkit-scrollbar {
             display: none;
+        }
+
+        .categories-scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            border: 0.5px solid rgb(0 0 0 / 0.3);
+            box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            transition: transform 0.2s;
+        }
+
+        .categories-scroll-button:hover {
+            transform: translateY(-50%) scale(1.04);
+        }
+
+        .categories-scroll-button.left {
+            left: 40px;
+            display: none;
+        }
+
+        .categories-scroll-button.right {
+            margin-right: 0;
+            margin-left: 0;
+            z-index: 10;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: relative;
+            top: auto;
+            transform: none;
+            right: auto;
+        }
+
+        .categories-scroll-button i {
+            font-size: 12px;
+            color: #222222;
+        }
+
+        .categories-scroll-button.right.rotated i {
+            transform: rotate(180deg);
+        }
+
+        .header-right-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 0;
+            padding-left: 0;
+            height: 100%;
+            background: white;
+            position: relative;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 21px;
+            padding: 5px 5px 5px 12px;
+            cursor: pointer;
+            background-color: white;
+            position: relative;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 240px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+            padding: 8px 0;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .user-dropdown.active {
+            display: block;
+        }
+        
+        .dropdown-section {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .dropdown-section:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item {
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #222;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f7f7f7;
+        }
+
+        .tax-toggle-button {
+            height: 36px;
+            padding: 0 16px;
+            border: 1px solid #DDDDDD;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+            color: #484848;
+        }
+
+        .tax-toggle-button:hover {
+            border-color: #BBBBBB;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 32px;
+            height: 20px;
+            margin-left: 4px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #B0B0B0;
+            transition: .2s;
+            border-radius: 20px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .2s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #222222;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(12px);
+        }
+
+        .filters-button {
+            height: 36px;
+            padding: 0 16px;
+            border: 1px solid #DDDDDD;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+            color: #484848;
+        }
+
+        .filters-button:hover {
+            border-color: #BBBBBB;
+        }
+
+        .filters-button i {
+            font-size: 12px;
+            color: #484848;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: 24px;
+            padding: 0 8px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            color: #222;
+            font-weight: 500;
         }
 
         .category {
@@ -245,28 +643,6 @@
             font-weight: 600;
             text-align: center;
             white-space: nowrap;
-        }
-
-        .filters-button {
-            position: sticky;
-            right: 80px;
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border: 1px solid #DDDDDD;
-            border-radius: 12px;
-            background-color: white;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            z-index: 10;
-            margin-left: auto;
-            height: fit-content;
-            align-self: center;
-        }
-
-        .filters-button i {
-            margin-right: 8px;
         }
 
         /* Property Grid */
@@ -824,39 +1200,163 @@
                 bottom: 20px;
             }
         }
+
+        /* Inspiration Section */
+        .inspiration-section {
+            padding: 48px 80px;
+            background-color: #f7f7f7;
+        }
+        
+        /* Continue Exploring Section */
+        .continue-exploring {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #ebebeb;
+        }
+        
+        .continue-exploring h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 20px;
+        }
+        
+        .show-more-btn {
+            background-color: #222;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .show-more-btn:hover {
+            background-color: #000;
+        }
     </style>
 </head>
 <body>
+    <script>
+        
+        // Function to handle scroll events for the dynamic navbar
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            const searchContainer = document.querySelector('.search-container');
+            const compactSearch = document.querySelector('.compact-search');
+            const categoriesWrapper = document.querySelector('.categories-wrapper');
+            const scrollPosition = window.scrollY;
+            
+            if (scrollPosition > 50) {
+                // When scrolled down
+                header.classList.add('scrolled');
+                searchContainer.classList.add('hidden');
+                compactSearch.classList.add('visible');
+                
+                // Adjust categories position when header is compact
+                categoriesWrapper.style.top = '64px';
+            } else {
+                // When at the top
+                header.classList.remove('scrolled');
+                searchContainer.classList.remove('hidden');
+                compactSearch.classList.remove('visible');
+                
+                // Reset categories position when header is normal
+                categoriesWrapper.style.top = '80px';
+            }
+        });
+        
+        // Function to toggle the user dropdown menu
+        function toggleUserDropdown() {
+            const dropdown = document.querySelector('.user-dropdown');
+            dropdown.classList.toggle('active');
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const userMenu = document.querySelector('.user-menu');
+                if (!userMenu.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            }, { once: true });
+        }
+        
+        // Function to update the Continue Exploring section based on selected category
+        function updateExploringSection(category) {
+            document.querySelector('.continue-exploring h2').textContent = 'Continue exploring ' + category;
+        }
+        
+        // Function to show Homes search bar
+        function showHomesSearch() {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.nav-tabs div:first-child').classList.add('active');
+            document.getElementById('homes-search').style.display = 'flex';
+            document.getElementById('experiences-search').style.display = 'none';
+        }
+        
+        // Function to show Experiences search bar
+        function showExperiencesSearch() {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.nav-tabs div:last-child').classList.add('active');
+            document.getElementById('homes-search').style.display = 'none';
+            document.getElementById('experiences-search').style.display = 'flex';
+        }
+        
+        // Initialize the search position when the page loads
+        window.addEventListener('load', function() {
+            showHomesSearch(); // Start with Homes search by default
+        });
+    </script>
     <!-- Header -->
     <header class="header">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/2560px-Airbnb_Logo_B%C3%A9lo.svg.png" alt="Airbnb" class="logo">
         
+        <!-- Compact search bar that appears when scrolling -->
+        <div class="compact-search">
+            <div class="compact-search-item">Anywhere</div>
+            <div class="compact-search-item">Any week</div>
+            <div class="compact-search-item">Add guests</div>
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
         <div class="nav-tabs">
-            <div class="nav-tab active">Homes</div>
-            <div class="nav-tab">Experiences</div>
+            <div class="nav-tab active" onclick="showHomesSearch()">Homes</div>
+            <div class="nav-tab" onclick="showExperiencesSearch()">Experiences</div>
         </div>
 
-        <button class="packing-list-btn" id="packingListBtn">
-            <i class="fas fa-suitcase"></i> Generate Packing List
-        </button>
+        <!-- Packing list button moved to categories section -->
         
         <div class="user-section">
             <a href="#" class="host-link">Airbnb your home</a>
             <div class="globe-icon">
                 <i class="fas fa-globe"></i>
             </div>
-            <div class="user-menu">
+            <div class="user-menu" onclick="toggleUserDropdown()">
                 <i class="fas fa-bars menu-bars"></i>
                 <div class="user-icon">
                     <i class="fas fa-user"></i>
+                </div>
+                <div class="user-dropdown">
+                    <div class="dropdown-section">
+                        <div class="dropdown-item">Sign up</div>
+                        <div class="dropdown-item">Log in</div>
+                    </div>
+                    <div class="dropdown-section">
+                        <div class="dropdown-item">Airbnb your home</div>
+                        <div class="dropdown-item">Host an experience</div>
+                        <div class="dropdown-item">Help Centre</div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
     
-    <!-- Search Bar -->
+    <!-- Search Container -->
     <div class="search-container">
-        <div class="search-bar">
+        <div class="search-bar" id="homes-search">
             <div class="search-item">
                 <div class="search-label">Where</div>
                 <input type="text" class="search-input" placeholder="Search destinations">
@@ -877,163 +1377,116 @@
                 <i class="fas fa-search"></i>
             </button>
         </div>
+        <div class="search-bar" id="experiences-search" style="display: none;">
+            <div class="search-item" style="flex: 1.5;">
+                <div class="search-label">Where</div>
+                <input type="text" class="search-input" placeholder="Search destinations">
+            </div>
+            <div class="search-item">
+                <div class="search-label">Date</div>
+                <input type="text" class="search-input" placeholder="Add dates">
+            </div>
+            <div class="search-item">
+                <div class="search-label">Who</div>
+                <input type="text" class="search-input" placeholder="Add guests">
+            </div>
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
     </div>
     
     <!-- Categories -->
-    <div class="categories-container">
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/aaa02c2d-9f0d-4c41-878a-68c12ec6c6bd.jpg" alt="Farms">
+    <div class="categories-wrapper" style="display: flex; align-items: center; justify-content: flex-start; gap: 0; position: sticky; top: 80px; background: white; z-index: 99; border-bottom: 1px solid #ebebeb; padding: 10px 80px;">
+        <button class="categories-scroll-button left">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="categories-container" style="position: relative;">
+            <div class="category active" onclick="updateExploringSection('farms')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/aaa02c2d-9f0d-4c41-878a-68c12ec6c6bd.jpg" alt="Farms">
+                </div>
+                <div class="category-name">Farms</div>
             </div>
-            <div class="category-name">Farms</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg" alt="Icons">
+            <div class="category" onclick="updateExploringSection('icons')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg" alt="Icons">
+                </div>
+                <div class="category-name">Icons</div>
             </div>
-            <div class="category-name">Icons</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg" alt="Rooms">
+            <div class="category" onclick="updateExploringSection('rooms')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg" alt="Rooms">
+                </div>
+                <div class="category-name">Rooms</div>
             </div>
-            <div class="category-name">Rooms</div>
-        </div>
-        <div class="category active">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" alt="Amazing pools">
+            <div class="category" onclick="updateExploringSection('amazing views')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" alt="Amazing views">
+                </div>
+                <div class="category-name">Amazing views</div>
             </div>
-            <div class="category-name">Amazing pools</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/248f85bf-e35e-4dc3-a9a1-e1dbff9a3db4.jpg" alt="Top of the world">
+            <div class="category" onclick="updateExploringSection('top of the world')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/248f85bf-e35e-4dc3-a9a1-e1dbff9a3db4.jpg" alt="Top of the world">
+                </div>
+                <div class="category-name">Top of the world</div>
             </div>
-            <div class="category-name">Top of the world</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/5cdb8451-8f75-4c5f-a17d-33ee228e3db8.jpg" alt="Windmills">
+            <div class="category" onclick="updateExploringSection('windmills')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/5cdb8451-8f75-4c5f-a17d-33ee228e3db8.jpg" alt="Windmills">
+                </div>
+                <div class="category-name">Windmills</div>
             </div>
-            <div class="category-name">Windmills</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg" alt="Amazing views">
+            <div class="category" onclick="updateExploringSection('amazing views')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg" alt="Amazing views">
+                </div>
+                <div class="category-name">Amazing views</div>
             </div>
-            <div class="category-name">Amazing views</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/6ad4bd95-f086-437d-97e3-14d12155ddfe.jpg" alt="Countryside">
+            <div class="category" onclick="updateExploringSection('countryside')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/6ad4bd95-f086-437d-97e3-14d12155ddfe.jpg" alt="Countryside">
+                </div>
+                <div class="category-name">Countryside</div>
             </div>
-            <div class="category-name">Countryside</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg" alt="Beachfront">
+            <div class="category" onclick="updateExploringSection('beachfront')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg" alt="Beachfront">
+                </div>
+                <div class="category-name">Beachfront</div>
             </div>
-            <div class="category-name">Beachfront</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/c8e2ed05-c666-47b6-99fc-4cb6edcde6b4.jpg" alt="Luxe">
+            <div class="category" onclick="updateExploringSection('beach')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/10ce1091-c854-40f3-a2fb-defc2995bcaf.jpg" alt="Beach">
+                </div>
+                <div class="category-name">Beach</div>
             </div>
-            <div class="category-name">Luxe</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/1d477273-96d6-4819-9bda-9085f809dad3.jpg" alt="Treehouses">
+            <div class="category" onclick="updateExploringSection('bed & breakfasts')">
+                <div class="category-icon">
+                    <img src="https://a0.muscache.com/pictures/4d4a4eba-c7e4-43eb-9ce2-95e1d200d10e.jpg" alt="Bed & breakfasts">
+                </div>
+                <div class="category-name">Bed & breakfasts</div>
             </div>
-            <div class="category-name">Treehouses</div>
         </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/732edad8-3ae0-49a8-a451-29a8010dcc0c.jpg" alt="Cabins">
+        <div class="header-right-section">
+            <button class="categories-scroll-button right">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="filters-button">
+                <i class="fas fa-sliders-h"></i>
+                Filters
+            </button>
+            <div class="tax-toggle-button">
+                Display total before taxes
+                <label class="toggle-switch">
+                    <input type="checkbox" id="taxToggle">
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
-            <div class="category-name">Cabins</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg" alt="OMG!">
-            </div>
-            <div class="category-name">OMG!</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/677a041d-7264-4c45-bb72-52bff21eb6e8.jpg" alt="Lakefront">
-            </div>
-            <div class="category-name">Lakefront</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/89faf9ae-bbbc-4bc4-aecd-cc15bf36cbca.jpg" alt="Domes">
-            </div>
-            <div class="category-name">Domes</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/35919456-df89-4024-ad50-5fcb7a472df9.jpg" alt="Tiny homes">
-            </div>
-            <div class="category-name">Tiny homes</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/50861fca-582c-4bcc-89d3-857fb7ca6528.jpg" alt="Design">
-            </div>
-            <div class="category-name">Design</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/8b44f770-7156-4c7b-b4d3-d92549c8652f.jpg" alt="Arctic">
-            </div>
-            <div class="category-name">Arctic</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/ee9e2a40-ffac-4db9-9080-b351efc3cfc4.jpg" alt="Tropical">
-            </div>
-            <div class="category-name">Tropical</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/eb7ba4c0-ea38-4cbb-9db6-bdcc8baad585.jpg" alt="Private rooms">
-            </div>
-            <div class="category-name">Private rooms</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/c0fa9598-4e37-40f3-b734-4bd0e2377add.jpg" alt="New">
-            </div>
-            <div class="category-name">New</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/3726d94b-534a-42b8-bca0-a0304d912260.jpg" alt="Trending">
-            </div>
-            <div class="category-name">Trending</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/4221e293-4770-4ea8-a4fa-9972158d4004.jpg" alt="Caves">
-            </div>
-            <div class="category-name">Caves</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/957f8022-dfd7-426c-99fd-77ed792f6d7a.jpg" alt="Surfing">
-            </div>
-            <div class="category-name">Surfing</div>
-        </div>
-        <div class="category">
-            <div class="category-icon">
-                <img src="https://a0.muscache.com/pictures/d7445031-62c4-46d0-91c3-4f29f9790f7a.jpg" alt="Earth homes">
-            </div>
-            <div class="category-name">Earth homes</div>
-        </div>
-        <div class="filters-button">
-            <i class="fas fa-sliders-h"></i>
-            Filters
+            <button class="packing-list-btn" id="packingListBtn" style="height: 36px; border-radius: 8px;">
+                <i class="fas fa-suitcase"></i> Generate Packing List
+            </button>
         </div>
     </div>
     
@@ -1382,69 +1835,204 @@
         </div>
     </div>
     
+    <!-- Continue Exploring Section -->
+    <div class="continue-exploring">
+        <h2>Continue exploring farms</h2>
+        <button class="show-more-btn">Show more</button>
+    </div>
+    
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-column">
-                <h4>Support</h4>
-                <div class="footer-links">
-                    <a href="#">Help Center</a>
-                    <a href="#">AirCover</a>
-                    <a href="#">Anti-discrimination</a>
-                    <a href="#">Disability support</a>
-                    <a href="#">Cancellation options</a>
-                    <a href="#">Report neighborhood concern</a>
+        <div style="padding: 48px 80px 32px; background-color: #f7f7f7;">
+            <h2 style="font-size: 22px; font-weight: 600; margin-bottom: 12px;">Inspiration for future getaways</h2>
+            
+            <div style="margin-bottom: 24px;">
+                <div style="display: flex; gap: 24px; overflow-x: auto; margin-bottom: 16px; border-bottom: 1px solid #DDDDDD;">
+                    <a href="#" style="font-size: 14px; color: #222; text-decoration: none; padding-bottom: 8px; border-bottom: 2px solid #222; font-weight: 600; margin-bottom: -1px;">Popular</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Arts & culture</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Outdoors</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Mountains</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Beach</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Unique stays</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Categories</a>
+                    <a href="#" style="font-size: 14px; color: #717171; text-decoration: none; padding-bottom: 8px;">Things to do</a>
                 </div>
             </div>
             
-            <div class="footer-column">
-                <h4>Hosting</h4>
-                <div class="footer-links">
-                    <a href="#">Airbnb your home</a>
-                    <a href="#">AirCover for Hosts</a>
-                    <a href="#">Hosting resources</a>
-                    <a href="#">Community forum</a>
-                    <a href="#">Hosting responsibly</a>
-                    <a href="#">Join a free Hosting class</a>
-                    <a href="#">Find a co-host</a>
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; row-gap: 32px;">
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Canmore</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Pet-friendly rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Benalmádena</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">House rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Marbella</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Villa rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Mijas</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">House rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Prescott</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">House rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Scottsdale</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Apartment rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Tucson</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Flat rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Jasper</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Cabin rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Mountain View</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Family-friendly rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Devonport</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Cottage rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Mallacoota</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Pet-friendly rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Ibiza</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Holiday rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Anaheim</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Apartment rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Monterey</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Bungalow rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Paso Robles</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">House rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Santa Barbara</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Cottage rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none;">
+                        <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 4px;">Sonoma</h3>
+                        <p style="font-size: 14px; color: #717171; margin: 0;">Pet-friendly rentals</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="#" style="text-decoration: none; display: flex; align-items: center;">
+                        <span style="font-size: 14px; color: #222; font-weight: 600;">Show more</span>
+                        <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 4px;"></i>
+                    </a>
                 </div>
             </div>
+
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 80px; padding: 48px 80px; background-color: #f7f7f7;">
+            <div>
+                <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 16px;">Support</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Help Centre</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">AirCover</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Anti-discrimination</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Disability support</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Cancellation options</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Report neighbourhood concern</a></li>
+                </ul>
+            </div>
             
-            <div class="footer-column">
-                <h4>Airbnb</h4>
-                <div class="footer-links">
-                    <a href="#">Newsroom</a>
-                    <a href="#">New features</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Investors</a>
-                    <a href="#">Airbnb.org emergency stays</a>
-                </div>
+            <div>
+                <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 16px;">Hosting</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Airbnb your home</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">AirCover for Hosts</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Hosting resources</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Community forum</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Hosting responsibly</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Join a free Hosting class</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Find a co-host</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 style="font-size: 14px; font-weight: 600; color: #222; margin-bottom: 16px;">Airbnb</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Newsroom</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">New features</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Careers</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Investors</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="font-size: 14px; color: #222; text-decoration: none;">Airbnb.org emergency stays</a></li>
+                </ul>
             </div>
         </div>
         
-        <div class="footer-bottom">
-            <div class="footer-left">
+        <div style="padding: 24px 80px; border-top: 1px solid #DDDDDD; display: flex; justify-content: space-between; align-items: center; background-color: #f7f7f7;">
+            <div style="display: flex; align-items: center; gap: 16px; font-size: 14px;">
                 <span>© 2025 Airbnb, Inc.</span>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Sitemap</a>
-                <a href="#">Company details</a>
+                <span>·</span>
+                <a href="#" style="color: #222; text-decoration: none;">Privacy</a>
+                <span>·</span>
+                <a href="#" style="color: #222; text-decoration: none;">Terms</a>
+                <span>·</span>
+                <a href="#" style="color: #222; text-decoration: none;">Sitemap</a>
+                <span>·</span>
+                <a href="#" style="color: #222; text-decoration: none;">Company details</a>
             </div>
             
-            <div class="footer-right">
-                <div class="language-selector">
-                    <i class="fas fa-globe"></i>
-                    <span>English (US)</span>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-globe" style="font-size: 14px;"></i>
+                    <span style="font-size: 14px;">English (IN)</span>
                 </div>
-                <div class="currency-selector">
-                    <i class="fas fa-dollar-sign"></i>
-                    <span>USD</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 14px;">₹ INR</span>
                 </div>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+                <a href="#" style="color: #222;"><i class="fab fa-facebook-f" style="font-size: 14px;"></i></a>
+                <a href="#" style="color: #222;"><i class="fab fa-twitter" style="font-size: 14px;"></i></a>
+                <a href="#" style="color: #222;"><i class="fab fa-instagram" style="font-size: 14px;"></i></a>
             </div>
         </div>
     </footer>
@@ -1580,6 +2168,73 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Category scrolling functionality
+            const categoriesContainer = document.querySelector('.categories-container');
+            const leftButton = document.querySelector('.categories-scroll-button.left');
+            const rightButton = document.querySelector('.categories-scroll-button.right');
+            
+            function updateScrollButtons() {
+                const isAtStart = categoriesContainer.scrollLeft <= 0;
+                const isAtEnd = categoriesContainer.scrollLeft + categoriesContainer.clientWidth >= categoriesContainer.scrollWidth - 1;
+                
+                leftButton.style.display = isAtStart ? 'none' : 'flex';
+                
+                if (isAtEnd) {
+                    rightButton.classList.add('rotated');
+                } else {
+                    rightButton.classList.remove('rotated');
+                }
+            }
+            
+            function scrollCategories(direction) {
+                const isAtEnd = categoriesContainer.scrollLeft + categoriesContainer.clientWidth >= categoriesContainer.scrollWidth - 1;
+                
+                if (isAtEnd && direction === 'right') {
+                    // Scroll back to start
+                    categoriesContainer.scrollTo({
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    const scrollAmount = direction === 'right' ? 
+                        categoriesContainer.clientWidth : -categoriesContainer.clientWidth;
+                    
+                    categoriesContainer.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            
+            rightButton.addEventListener('click', () => scrollCategories('right'));
+            leftButton.addEventListener('click', () => scrollCategories('left'));
+            
+            categoriesContainer.addEventListener('scroll', updateScrollButtons);
+            window.addEventListener('resize', updateScrollButtons);
+            
+            // Initial button state
+            updateScrollButtons();
+
+            // Tax toggle functionality
+            const taxToggle = document.getElementById('taxToggle');
+            const prices = document.querySelectorAll('.property-price');
+            
+            taxToggle.addEventListener('change', function() {
+                prices.forEach(price => {
+                    const priceText = price.querySelector('strong').textContent;
+                    const priceValue = parseInt(priceText.replace(/[^0-9]/g, ''));
+                    
+                    if (this.checked) {
+                        // Add 15% tax
+                        const withTax = Math.round(priceValue * 1.15);
+                        price.innerHTML = `<strong>$${withTax}</strong> night <span style="font-size: 12px; color: #717171;">(includes taxes)</span>`;
+                    } else {
+                        // Remove tax
+                        price.innerHTML = `<strong>$${priceValue}</strong> night`;
+                    }
+                });
+            });
+
             // Category selection
             const categories = document.querySelectorAll('.category');
             categories.forEach(category => {
@@ -1668,9 +2323,6 @@
             });
             
             // Categories navigation
-            const categoriesContainer = document.querySelector('.categories-container');
-            
-            // Remove the arrow button functionality since we're removing the buttons
             if (categoriesContainer) {
                 // Keep the container scrollable
                 categoriesContainer.addEventListener('scroll', function() {
